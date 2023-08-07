@@ -1,0 +1,31 @@
+<ion-content>
+  <div class="sign_head">
+    <h5 style="font-weight: bold">Create your</h5>
+    <h5 style="color: #2a67f5; font-weight: bold">Account</h5>
+  </div>
+
+  <div class="sign_input">
+    <form [formGroup]="fg" (ngSubmit)="onSubmit()">
+      <ion-item class="sign-color">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input aria-label="Email" type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-text color="danger" [hidden]="isValid('email')">* Please enter valid email address</ion-text>
+
+      <ion-item class="sign-color">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input aria-label="Password" type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-text color="danger" [hidden]="isValid('password')">* Please enter your password</ion-text>
+
+      <ion-button expand="block" class="sign_btn" type="submit">
+        <span class="bold"> Create Account </span>
+      </ion-button>
+    </form>
+  </div>
+
+  <div class="sign_sub">
+    <p class="bold" style="text-decoration: underline" (click)="onHaveAnAccountClick()">Already have an account?</p>
+    <p class="bold"></p>
+  </div>
+</ion-content>

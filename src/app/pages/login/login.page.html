@@ -1,0 +1,26 @@
+<ion-content>
+  <div class="login_head">
+    <h5 class="bold">Welcome</h5>
+    <h5 class="bold">back</h5>
+  </div>
+
+  <div class="login_input">
+    <form [formGroup]="fg" (ngSubmit)="onSubmit()">
+      <ion-item class="login-color">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input formControlName="email" type="text" aria-label="Enter email"></ion-input>
+      </ion-item>
+      <ion-text color="danger" [hidden]="isValid('email')">* Please enter valid email address</ion-text>
+
+      <ion-item class="login-color">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" type="password" aria-label="Enter Password"></ion-input>
+      </ion-item>
+      <ion-text color="danger" [hidden]="isValid('password')">* Please enter your password</ion-text>
+
+      <ion-button expand="block" class="login_btn" type="submit">
+        <span class="bold"> Log In </span>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
