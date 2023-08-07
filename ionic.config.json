@@ -1,0 +1,7 @@
+{
+  "name": "eventfind",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
