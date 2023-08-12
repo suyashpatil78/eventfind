@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createUserWithEmailAndPassword, Auth, signInWithEmailAndPassword, User } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { CameraService } from './camera.service';
 
 @Injectable({
@@ -46,5 +46,19 @@ export class AuthService {
       images: [],
       picture,
     });
+  }
+
+  subscribeToUserUpdates(callback: any) {
+    const user = this.auth.currentUser;
+    const userDocRef = doc(this.firestore, 'users', user.uid);
+    return onSnapshot(userDocRef, (d) => {
+      callback(d.data());
+    });
+  }
+
+  async getCurrentUser() {
+    const user = this.auth.currentUser;
+    const docRef = await getDoc(doc(this.firestore, 'users', user.uid));
+    return docRef.data();
   }
 }

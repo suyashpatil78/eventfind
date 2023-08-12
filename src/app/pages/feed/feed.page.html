@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-title>
+    <h2 id="topHeading"><strong>Events near you!</strong></h2>
+  </ion-title>
+</ion-header>
+
+<ion-content [scrollEvents]="true" *ngIf="events">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="events.length > 0">
+    <div (click)="onEventClick(event.creatorPlayerID)" *ngFor="let event of events; let i = index">
+      <ion-row class="event-main">
+        <ion-avatar class="ion-avatar">
+          <img src="{{ event.creator.picture }}" id="image" />
+        </ion-avatar>
+        <div class="eventDetails">
+          <p><strong>{{ event.name }}</strong></p>
+          <p style="font-size: 75%">
+            <strong>By {{ event.creator.name }}</strong>
+          </p>
+        </div>
+        <ion-icon name="ellipsis-vertical-outline" size="medium"></ion-icon>
+      </ion-row>
+
+      <div class="image-container">
+        <img class="banner" [src]="event.banner" />
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="!image">
+    <ion-fab-button id="opens" color="light">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal trigger="opens">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <div class="toolbar">
+            <ion-buttons slot="start" size="large">
+              <ion-button color="tertiary" (click)="cancel()" class="cancelButton"><h6>Cancel</h6></ion-button>
+            </ion-buttons>
+            <p>Create an event</p>
+            <ion-buttons slot="end" size="large">
+              <ion-button color="tertiary" class="cancelButton"><h6>Info</h6></ion-button>
+            </ion-buttons>
+          </div>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <form (ngSubmit)="createEvent()" [formGroup]="credentials">
+          <ion-item fill="solid" class="ion-margin-bottom">
+            <ion-input placeholder="Event Name" formControlName="name"></ion-input>
+            <ion-note slot="error" *ngIf="(name.dirty || name.touched) && name.errors">Name is invalid</ion-note>
+          </ion-item>
+          <ion-item fill="solid" class="ion-margin-bottom">
+            <ion-input placeholder="Event description" formControlName="description"></ion-input>
+            <ion-note slot="error" *ngIf="(description.dirty || description.touched) && description.errors"
+              >Description is invalid</ion-note
+            >
+          </ion-item>
+          <ion-button expand="block" color="warning" fill="outline" *ngIf="!image" (click)="takePicture()">
+            Take a picture!
+            <ion-icon slot="end" name="camera-outline"> </ion-icon>
+          </ion-button>
+          <hr />
+          <ion-button *ngIf="image" type="button" color="success" expand="block" fill="outline">
+            Picture Uploaded!
+          </ion-button>
+          <ion-button
+            type="submit"
+            [disabled]="!credentials.valid || !image"
+            class="main"
+            color="warning"
+            expand="block"
+          >
+            Save Event
+            <ion-icon name="enter-outline" size="large" slot="end"></ion-icon>
+          </ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

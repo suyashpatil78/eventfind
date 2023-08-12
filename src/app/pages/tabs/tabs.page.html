@@ -1,0 +1,28 @@
+<ion-tabs>
+  <ion-header>
+    <ion-toolbar>
+      <div class="header">
+        <p>💵</p>
+        <p>{{user?.points}}</p>
+        <img src="{{user?.picture}}" class="avatar" (click)="goToProfilePage()" />
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="map">
+      <ion-icon name="image-outline"></ion-icon>
+      <ion-label>Map</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="feed">
+      <ion-icon name="calendar-number-outline"></ion-icon>
+      <ion-label>Events</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="leaderboard">
+      <ion-icon name="podium-outline"></ion-icon>
+      <ion-label>Leaderboard</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
