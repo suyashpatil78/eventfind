@@ -81,4 +81,25 @@ export class EventService {
       console.error(e);
     }
   }
+
+  async participateEvent(rawImage: any, creatorPlayerID: any, playerID: any) {
+    try {
+      const image = await this.cameraService.uploadImage(rawImage, 'event/' + creatorPlayerID + '/' + playerID);
+
+      const event = await this.getEvent(creatorPlayerID);
+      event.imageArray.push(image);
+      await setDoc(doc(this.firestore, 'events', creatorPlayerID), event);
+
+      const player: any = await this.getPlayer(playerID);
+      player.events.push(creatorPlayerID);
+      player.images.push(image);
+      player.points += 10;
+      await setDoc(doc(this.firestore, 'users', playerID), player);
+
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  }
 }

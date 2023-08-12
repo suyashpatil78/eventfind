@@ -17,6 +17,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
+      {
+        path: 'eventpage/:id',
+        loadChildren: () => import('../eventpage/eventpage.module').then((m) => m.EventpagePageModule),
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
     ],
   },
 ];
