@@ -61,7 +61,7 @@ export class EventService {
       const player: any = await this.getPlayer(creatorPlayerID);
       if (player.points >= 100) {
         const image = await this.cameraService.uploadImage(rawImage, 'event/' + creatorPlayerID);
-        await setDoc(doc(this.firestore, 'events', creatorPlayerID), {
+        await setDoc(doc(this.firestore, 'events', `${creatorPlayerID}-${name.value}-${description.value}`), {
           name: name.value,
           location: coordinates,
           description: description.value,
@@ -74,7 +74,8 @@ export class EventService {
         console.log('not adding to event', player);
         player.events.push(creatorPlayerID);
         player.images.push(image);
-        player.points -= 100;
+        // 10 points will be deducted for creating an event
+        player.points -= 10;
         await setDoc(doc(this.firestore, 'users', creatorPlayerID), player);
       }
     } catch (e) {
