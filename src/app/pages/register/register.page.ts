@@ -59,9 +59,7 @@ export class RegisterPage implements OnInit {
   }
 
   isValid(control: string) {
-    return (
-      this.fg.controls[control].valid || (this.fg.controls[control].pristine && !this.fg.controls[control].touched)
-    );
+    return !this.fg.controls[control].touched || this.fg.controls[control].valid;
   }
 
   onHaveAnAccountClick() {
