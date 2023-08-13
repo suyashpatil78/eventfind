@@ -102,4 +102,14 @@ export class EventService {
       return false;
     }
   }
+
+  async getAllPlayers() {
+    try {
+      const users = await getDocs(collection(this.firestore, 'users'));
+      return users.docs.map((d) => d.data());
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
 }
