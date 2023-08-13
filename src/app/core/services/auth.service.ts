@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createUserWithEmailAndPassword, Auth, signInWithEmailAndPassword, User } from '@angular/fire/auth';
+import { createUserWithEmailAndPassword, Auth, signInWithEmailAndPassword, User, signOut } from '@angular/fire/auth';
 import { Firestore, doc, getDoc, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { CameraService } from './camera.service';
 
@@ -60,5 +60,13 @@ export class AuthService {
     const user = this.auth.currentUser;
     const docRef = await getDoc(doc(this.firestore, 'users', user.uid));
     return docRef.data();
+  }
+
+  async signOut() {
+    try {
+      await signOut(this.auth);
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
