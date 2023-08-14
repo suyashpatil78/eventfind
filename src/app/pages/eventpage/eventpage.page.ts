@@ -42,7 +42,7 @@ export class EventpagePage implements OnInit {
           this.blur = false;
         }
 
-        const ev = await this.eventService.getEvent(this.route.snapshot.params['id']);
+        const ev = await this.eventService.getEvent(this.route.snapshot.params['id'].split('-')[0]);
         this.user = user;
         this.event = ev;
         console.log(this.event);
