@@ -31,13 +31,13 @@
     <hr />
   </ion-card>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let image of event?.imageArray">
-        <div>
-          <img [src]="image" />
-        </div>
-      </ion-col>
+  <ion-grid [fixed]="true">
+    <ion-row *ngFor="let rowIndex of getRowIndices()">
+      <ng-container *ngFor="let colIndex of getColumnIndices()">
+        <ion-col size="6" *ngIf="event?.imageArray[getIndex(rowIndex, colIndex)] as imageUrl">
+          <div><img [src]="imageUrl" /></div>
+        </ion-col>
+      </ng-container>
     </ion-row>
   </ion-grid>
 </ion-content>

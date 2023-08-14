@@ -10,8 +10,8 @@
   </ion-refresher>
 
   <div *ngIf="events.length > 0">
-    <div (click)="onEventClick(event.creatorPlayerID)" *ngFor="let event of events; let i = index">
-      <ion-row class="event-main">
+    <div *ngFor="let event of events; let i = index">
+      <ion-row class="event-main" (click)="onEventClick(event)">
         <ion-avatar class="ion-avatar">
           <img src="{{ event.creator.picture }}" id="image" />
         </ion-avatar>
@@ -24,7 +24,7 @@
         <ion-icon name="ellipsis-vertical-outline" size="medium"></ion-icon>
       </ion-row>
 
-      <div class="image-container">
+      <div class="image-container" (click)="onEventClick(event)">
         <img class="banner" [src]="event.banner" />
       </div>
     </div>

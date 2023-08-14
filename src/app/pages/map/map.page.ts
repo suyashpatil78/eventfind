@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
 import { DataService } from 'src/app/core/services/data.service';
 
@@ -32,11 +32,24 @@ export class MapPage implements AfterViewInit {
     private router: Router,
     private eventService: EventService,
     private dataService: DataService,
+    private route: ActivatedRoute,
   ) {}
 
   async ngAfterViewInit() {
     this.events = await this.eventService.getAllEvents();
     this.initMap();
+  }
+
+  ionViewWillEnter() {
+    if (
+      this.map &&
+      (this.route.snapshot.queryParams as { lat: string }).lat &&
+      (this.route.snapshot.queryParams as { long: string }).long
+    ) {
+      const lat = parseFloat((this.route.snapshot.queryParams as { lat: string }).lat);
+      const long = parseFloat((this.route.snapshot.queryParams as { long: string }).long);
+      this.map.panTo([lat, long]);
+    }
   }
 
   private onPopupClick(e: any) {
@@ -47,13 +60,28 @@ export class MapPage implements AfterViewInit {
     this.dataService.getCurrentID(e);
   }
   private initMap(): void {
-    this.map = L.map('map', {
-      renderer: L.canvas(),
-      // This is dummy location to be removed later
-      center: [23.128806, 75.63022],
-      zoom: 12,
-      zoomControl: true,
-    });
+    if (
+      (this.route.snapshot.queryParams as { lat: string }).lat &&
+      (this.route.snapshot.queryParams as { long: string }).long
+    ) {
+      const lat = (this.route.snapshot.queryParams as { lat: string }).lat;
+      const long = (this.route.snapshot.queryParams as { long: string }).long;
+      this.map = L.map('map', {
+        renderer: L.canvas(),
+        // This is dummy location to be removed later
+        center: [parseFloat(lat), parseFloat(long)],
+        zoom: 12,
+        zoomControl: true,
+      });
+    } else {
+      this.map = L.map('map', {
+        renderer: L.canvas(),
+        // This is dummy location to be removed later
+        center: [23.128806, 75.63022],
+        zoom: 12,
+        zoomControl: true,
+      });
+    }
 
     const tiles = L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png', {
       maxZoom: 20,

@@ -47,20 +47,15 @@ export class FeedPage implements OnInit {
     this.events = await this.eventService.getAllEvents();
   }
 
-  onEventClick(id: any) {
-    console.log('Clicked');
-    this.router.navigateByUrl('tabs/eventpage/' + id, {
+  onEventClick(event: any) {
+    this.router.navigateByUrl('tabs/eventpage/' + `${event.creatorPlayerID}-${event.name}-${event.description}`, {
       replaceUrl: true,
     });
-    this.dataService.getCurrentID(id);
+    this.dataService.getCurrentID(event.creatorPlayerID);
   }
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
-  }
-
-  confirm() {
-    this.modal.dismiss('test what is this', 'confirm');
   }
 
   async doRefresh(event: any) {

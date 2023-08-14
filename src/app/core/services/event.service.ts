@@ -43,7 +43,12 @@ export class EventService {
 
   async getEvent(id: any) {
     try {
-      const q = query(collection(this.firestore, 'events'), where('creatorPlayerID', '==', id));
+      const q = query(
+        collection(this.firestore, 'events'),
+        where('creatorPlayerID', '==', id.split('-')[0]),
+        where('name', '==', id.split('-')[1]),
+        where('description', '==', id.split('-')[2]),
+      );
       const querySnapshot = await getDocs(q);
 
       const event: any = querySnapshot.docs.map((d) => d.data())[0];
@@ -59,7 +64,7 @@ export class EventService {
   async createEvent(creatorPlayerID: any, rawImage: any, name: any, coordinates: any, description: any) {
     try {
       const player: any = await this.getPlayer(creatorPlayerID);
-      if (player.points >= 100) {
+      if (player.points >= 10) {
         const image = await this.cameraService.uploadImage(rawImage, 'event/' + creatorPlayerID);
         await setDoc(doc(this.firestore, 'events', `${creatorPlayerID}-${name.value}-${description.value}`), {
           name: name.value,

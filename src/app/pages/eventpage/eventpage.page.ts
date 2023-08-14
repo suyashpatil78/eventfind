@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
-import { CameraService } from 'src/app/core/services/camera.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DataService } from 'src/app/core/services/data.service';
 
@@ -30,8 +29,6 @@ export class EventpagePage implements OnInit {
     public dataService: DataService,
     private route: ActivatedRoute,
     private loadingController: LoadingController,
-    private cameraService: CameraService,
-    private alertController: AlertController,
     private authService: AuthService,
   ) {}
 
@@ -39,12 +36,13 @@ export class EventpagePage implements OnInit {
     this.dataService.getID.subscribe(async (message: any) => {
       const user: any = await this.authService.getCurrentUser();
       if (message) {
+        console.log(message);
         this.eventCreatorID = message;
         if (message === user?.id || user?.events?.includes(message)) {
           this.blur = false;
         }
 
-        const ev = await this.eventService.getEvent(message);
+        const ev = await this.eventService.getEvent(this.route.snapshot.params['id']);
         this.user = user;
         this.event = ev;
         console.log(this.event);
@@ -53,16 +51,9 @@ export class EventpagePage implements OnInit {
     });
   }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  confirm() {
-    this.modal.dismiss(this.name, 'confirm');
-  }
-
   goToMap(event: any) {
-    this.router.navigateByUrl('tabs/map', {
+    console.log(event);
+    this.router.navigateByUrl(`tabs/map?lat=${event.location[0]}&long=${event.location[1]}`, {
       replaceUrl: true,
     });
     return event;
@@ -91,5 +82,18 @@ export class EventpagePage implements OnInit {
   async doRefresh(event: any) {
     this.event = await this.eventService.getEvent(this.eventCreatorID);
     event.target.complete();
+  }
+
+  getRowIndices(): number[] {
+    const rowCount = Math.ceil(this.event.imageArray.length / 2);
+    return Array.from({ length: rowCount }, (_, index) => index);
+  }
+
+  getColumnIndices(): number[] {
+    return Array.from({ length: 2 }, (_, index) => index);
+  }
+
+  getIndex(rowIndex: number, colIndex: number): number {
+    return rowIndex * 2 + colIndex;
   }
 }
