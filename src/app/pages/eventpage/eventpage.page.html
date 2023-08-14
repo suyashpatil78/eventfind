@@ -31,7 +31,7 @@
     <hr />
   </ion-card>
 
-  <ion-grid [fixed]="true">
+  <ion-grid [fixed]="true" *ngIf="!blur">
     <ion-row *ngFor="let rowIndex of getRowIndices()">
       <ng-container *ngFor="let colIndex of getColumnIndices()">
         <ion-col size="6" *ngIf="event?.imageArray[getIndex(rowIndex, colIndex)] as imageUrl">
