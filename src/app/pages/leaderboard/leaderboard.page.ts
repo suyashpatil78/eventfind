@@ -9,6 +9,7 @@ import { EventService } from 'src/app/core/services/event.service';
 })
 export class LeaderboardPage implements OnInit {
   players: any = [];
+  isLoading = false;
 
   constructor(
     private eventService: EventService,
@@ -16,10 +17,12 @@ export class LeaderboardPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.isLoading = true;
     this.authService.subscribeToUserUpdates(async () => {
       this.players = await this.eventService.getAllPlayers();
       this.players.sort((a: any, b: any) => b.points - a.points);
     });
+    this.isLoading = false;
   }
 
   async doRefresh(event: any) {

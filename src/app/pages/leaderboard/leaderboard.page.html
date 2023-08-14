@@ -8,17 +8,46 @@
     </ion-label>
   </ion-item>
 
-  <ion-item *ngFor="let player of players; let i = index">
+  <ng-container *ngIf="isLoading">
     <div class="row">
-      <p><strong>{{i + 1}}</strong></p>
-      <ion-avatar class="ion-avatar">
-        <img src="{{ player.picture }}" id="image" />
-      </ion-avatar>
-      <p style="font-size: 1.15rem"><strong>{{ player.name }}</strong></p>
-      <div>
-        <p>{{player?.points}}</p>
-        <p>💵</p>
-      </div>
+      <ion-thumbnail style="margin-left: 0">
+        <ion-skeleton-text style="border-radius: 50%" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text style="width: 70%; margin-left: 0"></ion-skeleton-text>
     </div>
-  </ion-item>
+    <div class="row">
+      <ion-thumbnail style="margin-left: 0">
+        <ion-skeleton-text style="border-radius: 50%" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text style="width: 70%; margin-left: 0"></ion-skeleton-text>
+    </div>
+    <div class="row">
+      <ion-thumbnail style="margin-left: 0">
+        <ion-skeleton-text style="border-radius: 50%" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text style="width: 70%; margin-left: 0"></ion-skeleton-text>
+    </div>
+    <div class="row">
+      <ion-thumbnail style="margin-left: 0">
+        <ion-skeleton-text style="border-radius: 50%" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text style="width: 70%; margin-left: 0"></ion-skeleton-text>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading">
+    <ion-item *ngFor="let player of players; let i = index">
+      <div class="row">
+        <p><strong>{{i + 1}}</strong></p>
+        <ion-avatar class="ion-avatar">
+          <img src="{{ player.picture }}" id="image" />
+        </ion-avatar>
+        <p style="font-size: 1.15rem"><strong>{{ player.name }}</strong></p>
+        <div>
+          <p>{{player?.points}}</p>
+          <p>💵</p>
+        </div>
+      </div>
+    </ion-item>
+  </ng-container>
 </ion-content>

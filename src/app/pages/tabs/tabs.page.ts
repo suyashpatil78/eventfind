@@ -15,9 +15,13 @@ export class TabsPage implements OnInit {
 
   user: any;
 
+  isLoading: boolean = false;
+
   ngOnInit() {
+    this.isLoading = true;
     this.authService.subscribeToUserUpdates((user: any) => {
       this.user = user;
+      this.isLoading = false;
     });
   }
 

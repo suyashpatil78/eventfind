@@ -11,6 +11,7 @@ import { CameraService } from 'src/app/core/services/camera.service';
 })
 export class ProfilePage implements OnInit {
   user: any = null;
+  isLoading = false;
 
   constructor(
     private router: Router,
@@ -21,7 +22,9 @@ export class ProfilePage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.isLoading = true;
     this.user = await this.authService.getCurrentUser();
+    this.isLoading = false;
   }
 
   async signOut() {

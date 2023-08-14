@@ -4,7 +4,10 @@
       <div class="header">
         <p>💵</p>
         <p>{{user?.points}}</p>
-        <img src="{{user?.picture}}" class="avatar" (click)="goToProfilePage()" />
+        <ion-thumbnail *ngIf="isLoading" slot="start">
+          <ion-skeleton-text class="avatar" [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <img *ngIf="!isLoading" src="{{user?.picture}}" class="avatar" (click)="goToProfilePage()" />
       </div>
     </ion-toolbar>
   </ion-header>

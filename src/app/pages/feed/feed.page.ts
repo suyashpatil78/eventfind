@@ -20,6 +20,7 @@ export class FeedPage implements OnInit {
   events: any = [];
   user: any = null;
   image: any = null;
+  isLoading = false;
 
   constructor(
     private dataService: DataService,
@@ -39,12 +40,14 @@ export class FeedPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.isLoading = true;
     this.credentials = this.fb.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
     });
     this.user = await this.authService.getCurrentUser();
     this.events = await this.eventService.getAllEvents();
+    this.isLoading = false;
   }
 
   onEventClick(event: any) {

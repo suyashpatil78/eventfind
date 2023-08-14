@@ -3,7 +3,8 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <h1 style="text-align: center">
-    <strong>Welcome, {{ user?.name }}!</strong>
+    <ion-skeleton-text *ngIf="isLoading" style="margin: auto; width: 70%; height: 20px"></ion-skeleton-text>
+    <strong *ngIf="!isLoading">Welcome, {{ user?.name }}!</strong>
   </h1>
 
   <ion-toolbar>
@@ -19,46 +20,66 @@
     </ul>
   </div>
 
-  <ion-grid>
+  <ng-container *ngIf="isLoading">
     <ion-row>
       <ion-col offset-4>
-        <div><img src="{{ user?.images[0] }}" /></div>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
       </ion-col>
       <ion-col>
-        <div><img src="{{ user?.images[1] }}" /></div>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col offset-4>
-        <div><img src="{{ user?.images[2] }}" /></div>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
       </ion-col>
       <ion-col>
-        <div><img src="{{ user?.images[3] }}" /></div>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col offset-4>
-        <div><img src="{{ user?.images[4] }}" /></div>
-      </ion-col>
-      <ion-col>
-        <div><img src="{{ user?.images[5] }}" /></div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset-4>
-        <div><img src="{{ user?.images[6] }}" /></div>
-      </ion-col>
-      <ion-col>
-        <div><img src="{{ user?.images[7] }}" /></div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col offset-4>
-        <div><img src="{{ user?.images[8] }}" /></div>
-      </ion-col>
-      <ion-col>
-        <div><img src="{{ user?.images[9] }}" /></div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  </ng-container>
+  <ng-container *ngIf="!isLoading">
+    <ion-grid>
+      <ion-row>
+        <ion-col offset-4>
+          <div><img src="{{ user?.images[0] }}" /></div>
+        </ion-col>
+        <ion-col>
+          <div><img src="{{ user?.images[1] }}" /></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col offset-4>
+          <div><img src="{{ user?.images[2] }}" /></div>
+        </ion-col>
+        <ion-col>
+          <div><img src="{{ user?.images[3] }}" /></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col offset-4>
+          <div><img src="{{ user?.images[4] }}" /></div>
+        </ion-col>
+        <ion-col>
+          <div><img src="{{ user?.images[5] }}" /></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col offset-4>
+          <div><img src="{{ user?.images[6] }}" /></div>
+        </ion-col>
+        <ion-col>
+          <div><img src="{{ user?.images[7] }}" /></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col offset-4>
+          <div><img src="{{ user?.images[8] }}" /></div>
+        </ion-col>
+        <ion-col>
+          <div><img src="{{ user?.images[9] }}" /></div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
 </ion-content>
