@@ -26,10 +26,10 @@
 
 https://github.com/suyashpatil78/eventfind/assets/127177049/69ae0db4-d7d0-4c48-bef6-110907f0275f
 
-![Screenshot_20230815_152849_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/55d07a5c-9afa-4a5d-a5cc-6d3484f2364c)
-![Screenshot_20230815_152713_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/e173e998-2f1a-4650-bca1-ce22ad0b9849)
-![Screenshot_20230815_152652_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/99a702d6-cfde-44d6-bc35-861a6e81fa3a)
-![Screenshot_20230815_152546_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/76ee50a2-7b58-4151-acb6-9b015d10479b)
-![Screenshot_20230815_152343_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/62960038-b7ff-43be-987f-19a715708a63)
-![Screenshot_20230815_152300_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/4539954b-5812-4ee4-8f93-c11d6b3b8ca3)
-![Screenshot_20230815_152238_eventfind](https://github.com/suyashpatil78/eventfind/assets/127177049/fe9644e6-9100-42dc-8186-b4a7712d8f6c)
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/55d07a5c-9afa-4a5d-a5cc-6d3484f2364c" width='260px' height='540px' />
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/e173e998-2f1a-4650-bca1-ce22ad0b9849" width='260px' height='540px' />
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/99a702d6-cfde-44d6-bc35-861a6e81fa3a" width='260px' height='540px' />
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/76ee50a2-7b58-4151-acb6-9b015d10479b" width='260px' height='540px' />
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/62960038-b7ff-43be-987f-19a715708a63" width='260px' height='540px' />
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/4539954b-5812-4ee4-8f93-c11d6b3b8ca3" width='260px' height='540px' />
+<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/fe9644e6-9100-42dc-8186-b4a7712d8f6c" width='260px' height='540px' />
