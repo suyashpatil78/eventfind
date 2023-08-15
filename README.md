@@ -1,5 +1,5 @@
 # eventfind
-## An application developed to create an locate an event happening nearby you. This is a cross-platform application built using Ionic and Angular. Several plugins from capacitor have been used to provide native support. Here are certain features of it:
+### An application developed to create and locate an event happening nearby you. This is a cross-platform application built using Ionic and Angular. Several plugins from capacitor have been used to provide native support. Here are certain features of it:
 * User can register and login in the application. The authentication is being handled by firebase.
 * User can create an event by using 10 points. The device location will be used as a location of the event.
 * Users can participate in other events by submitting their photos.
