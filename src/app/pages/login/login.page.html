@@ -6,13 +6,13 @@
 
   <div class="login_input">
     <form [formGroup]="fg" (ngSubmit)="onSubmit()">
-      <ion-item class="login-color" fill="outline">
+      <ion-item class="login-color">
         <ion-label position="floating">Email</ion-label>
         <ion-input formControlName="email" type="text" placeholder="Enter email"></ion-input>
       </ion-item>
       <ion-text color="danger" [hidden]="isValid('email')">* Please enter valid email address</ion-text>
 
-      <ion-item class="login-color" fill="outline">
+      <ion-item class="login-color">
         <ion-label position="floating">Password</ion-label>
         <ion-input formControlName="password" type="password" placeholder="Enter Password"></ion-input>
       </ion-item>
