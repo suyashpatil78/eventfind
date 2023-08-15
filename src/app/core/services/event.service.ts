@@ -1,6 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, collection, doc, getDoc, getDocs, where, query, Timestamp, setDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  where,
+  query,
+  Timestamp,
+  setDoc,
+  QueryConstraint,
+} from '@angular/fire/firestore';
 import { CameraService } from './camera.service';
 
 @Injectable({
@@ -43,12 +54,12 @@ export class EventService {
 
   async getEvent(id: any) {
     try {
-      const q = query(
-        collection(this.firestore, 'events'),
+      const conditions: QueryConstraint[] = [
         where('creatorPlayerID', '==', id.split('-')[0]),
         where('name', '==', id.split('-')[1]),
         where('description', '==', id.split('-')[2]),
-      );
+      ];
+      const q = query(collection(this.firestore, 'events'), ...conditions);
       const querySnapshot = await getDocs(q);
 
       const event: any = querySnapshot.docs.map((d) => d.data())[0];
@@ -76,7 +87,6 @@ export class EventService {
           createdAt: Timestamp.now(),
         });
 
-        console.log('not adding to event', player);
         player.events.push(creatorPlayerID);
         player.images.push(image);
         // 10 points will be deducted for creating an event
@@ -88,11 +98,11 @@ export class EventService {
     }
   }
 
-  async participateEvent(rawImage: any, creatorPlayerID: any, playerID: any) {
+  async participateEvent(rawImage: any, creatorPlayerID: any, playerID: any, id: any) {
     try {
       const image = await this.cameraService.uploadImage(rawImage, 'event/' + creatorPlayerID + '/' + playerID);
 
-      const event = await this.getEvent(creatorPlayerID);
+      const event = await this.getEvent(id);
       event.imageArray.push(image);
       await setDoc(doc(this.firestore, 'events', creatorPlayerID), event);
 

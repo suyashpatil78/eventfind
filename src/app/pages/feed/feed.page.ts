@@ -82,7 +82,6 @@ export class FeedPage implements OnInit {
 
       try {
         const coordinates = await Geolocation.getCurrentPosition();
-        console.log(coordinates);
         const result = await this.eventService.createEvent(
           this.user.id,
           this.image,
@@ -91,7 +90,6 @@ export class FeedPage implements OnInit {
           this.description,
         );
       } catch (err) {
-        console.log(err);
         const result = await this.eventService.createEvent(
           this.user.id,
           this.image,

@@ -36,23 +36,20 @@ export class EventpagePage implements OnInit {
     this.dataService.getID.subscribe(async (message: any) => {
       const user: any = await this.authService.getCurrentUser();
       if (message) {
-        console.log(message);
         this.eventCreatorID = message;
         if (message === user?.id || user?.events?.includes(message)) {
           this.blur = false;
         }
 
-        const ev = await this.eventService.getEvent(this.route.snapshot.params['id'].split('-')[0]);
+        const ev = await this.eventService.getEvent(this.route.snapshot.params['id']);
+        console.log('test', ev);
         this.user = user;
         this.event = ev;
-        console.log(this.event);
-        console.log(ev);
       }
     });
   }
 
   goToMap(event: any) {
-    console.log(event);
     this.router.navigateByUrl(`tabs/map?lat=${event.location[0]}&long=${event.location[1]}`, {
       replaceUrl: true,
     });
@@ -70,17 +67,22 @@ export class EventpagePage implements OnInit {
       source: CameraSource.Camera,
     });
 
-    const success = await this.eventService.participateEvent(image, this.event.creatorPlayerID, this.user.id);
+    const success = await this.eventService.participateEvent(
+      image,
+      this.event.creatorPlayerID,
+      this.user.id,
+      this.route.snapshot.params['id'],
+    );
 
     if (success) {
       this.blur = false;
-      this.event = await this.eventService.getEvent(this.eventCreatorID);
+      this.event = await this.eventService.getEvent(this.route.snapshot.params['id']);
     }
     await loading.dismiss();
   }
 
   async doRefresh(event: any) {
-    this.event = await this.eventService.getEvent(this.eventCreatorID);
+    this.event = await this.eventService.getEvent(this.route.snapshot.params['id']);
     event.target.complete();
   }
 

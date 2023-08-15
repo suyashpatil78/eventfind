@@ -53,7 +53,6 @@ export class MapPage implements AfterViewInit {
   }
 
   private onPopupClick(e: any) {
-    console.log(e);
     this.router.navigateByUrl('tabs/eventpage/' + e, {
       replaceUrl: true,
     });
