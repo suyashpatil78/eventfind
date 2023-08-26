@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
@@ -23,7 +23,7 @@ export class InfoPage implements OnInit {
     private router: Router,
   ) {}
 
-  get name() {
+  get name(): AbstractControl<string> {
     return this.credentials.get('name');
   }
 
@@ -38,7 +38,7 @@ export class InfoPage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt,
+      source: CameraSource.Camera,
     });
   }
 

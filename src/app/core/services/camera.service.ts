@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage, getDownloadURL, ref, uploadString } from '@angular/fire/storage';
+import { Photo } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class CameraService {
    * This function is called whenever a user uploads an image using camera or gallery.
    * The image is uploaded to Firebase Storage and the URL is stored in the corresponding document in the Firestore database.
    */
-  async uploadImage(cameraFile: any, id: string) {
+  async uploadImage(cameraFile: Photo, id: string): Promise<string> {
     const path = `uploads/${id}/pic.webp`;
     const storageRef = ref(this.storage, path);
 

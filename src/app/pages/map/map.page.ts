@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
 import { DataService } from 'src/app/core/services/data.service';
+import { Event } from 'src/app/core/models/event.model';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -25,8 +26,9 @@ L.Marker.prototype.options.icon = iconDefault;
   styleUrls: ['./map.page.scss'],
 })
 export class MapPage implements AfterViewInit {
-  events: any = [];
-  private map: any;
+  events: Event[] = [];
+
+  private map: L.Map;
 
   constructor(
     private router: Router,
@@ -35,12 +37,12 @@ export class MapPage implements AfterViewInit {
     private route: ActivatedRoute,
   ) {}
 
-  async ngAfterViewInit() {
+  async ngAfterViewInit(): Promise<void> {
     this.events = await this.eventService.getAllEvents();
     this.initMap();
   }
 
-  ionViewWillEnter() {
+  ionViewWillEnter(): void {
     if (
       this.map &&
       (this.route.snapshot.queryParams as { lat: string }).lat &&
@@ -52,12 +54,13 @@ export class MapPage implements AfterViewInit {
     }
   }
 
-  private onPopupClick(e: any) {
+  private onPopupClick(e: string): void {
     this.router.navigateByUrl('tabs/eventpage/' + e, {
       replaceUrl: true,
     });
     this.dataService.getCurrentID(e);
   }
+
   private initMap(): void {
     if (
       (this.route.snapshot.queryParams as { lat: string }).lat &&
@@ -91,10 +94,10 @@ export class MapPage implements AfterViewInit {
     for (const e of this.events) {
       const popup = L.DomUtil.create('div', 'infoWindow');
       popup.innerHTML = `<div style="width:max-content;display:flex;flex-direction:column;justify-content:center;gap:10px;padding-top:20px;"><img width="150px" height="200px" style="object-fit:cover;" src="${e.banner}"><center style="font-size:1rem;"> ${e.name} </center></div>`;
-      const marker = new L.Marker(e.location);
+      const marker = new L.Marker(e.location as L.LatLngExpression);
       marker.bindPopup(popup);
       L.DomEvent.addListener(popup, 'click', () => {
-        this.onPopupClick(e.creatorPlayerID);
+        this.onPopupClick(e.creatorUserID);
       });
       marker.addTo(this.map);
     }

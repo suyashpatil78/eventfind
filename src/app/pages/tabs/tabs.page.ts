@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { User } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -14,13 +14,13 @@ export class TabsPage implements OnInit {
     private authService: AuthService,
   ) {}
 
-  user: any;
+  user: User;
 
   isLoading = false;
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.authService.subscribeToUserUpdates((user: any) => {
+    this.authService.subscribeToUserUpdates((user) => {
       this.user = user;
       this.isLoading = false;
     });

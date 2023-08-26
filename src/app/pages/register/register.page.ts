@@ -20,14 +20,14 @@ export class RegisterPage implements OnInit {
 
   fg!: FormGroup;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fg = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  async showAlert(header: string, message: string) {
+  async showAlert(header: string, message: string): Promise<void> {
     const alert = await this.alertController.create({
       header,
       message,
@@ -36,11 +36,11 @@ export class RegisterPage implements OnInit {
     await alert.present();
   }
 
-  async register() {
+  async register(): Promise<void> {
     const loading = await this.loadingController.create();
     await loading.present();
 
-    const user = await this.authService.register(this.fg.value);
+    const user = await this.authService.register(this.fg.value as { email: string; password: string });
     await loading.dismiss();
 
     if (user) {
@@ -50,7 +50,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     if (this.fg.valid) {
       await this.register();
     } else {
@@ -58,11 +58,11 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  isValid(control: string) {
+  isValid(control: string): boolean {
     return !this.fg.controls[control].touched || this.fg.controls[control].valid;
   }
 
-  onHaveAnAccountClick() {
+  onHaveAnAccountClick(): void {
     this.router.navigate(['/', 'login']);
   }
 }

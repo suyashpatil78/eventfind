@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { EventService } from 'src/app/core/services/event.service';
 
@@ -8,7 +9,8 @@ import { EventService } from 'src/app/core/services/event.service';
   styleUrls: ['./leaderboard.page.scss'],
 })
 export class LeaderboardPage implements OnInit {
-  players: any = [];
+  users: User[] = [];
+
   isLoading = false;
 
   constructor(
@@ -16,18 +18,19 @@ export class LeaderboardPage implements OnInit {
     private authService: AuthService,
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.isLoading = true;
     this.authService.subscribeToUserUpdates(async () => {
-      this.players = await this.eventService.getAllPlayers();
-      this.players.sort((a: any, b: any) => b.points - a.points);
+      this.users = await this.eventService.getAllUsers();
+      this.users.sort((a: User, b: User) => b.points - a.points);
     });
     this.isLoading = false;
   }
 
-  async doRefresh(event: any) {
-    this.players = await this.eventService.getAllPlayers();
-    this.players.sort((a: any, b: any) => b.points - a.points);
-    event.target.complete();
+  async doRefresh(event: Partial<CustomEvent>): Promise<void> {
+    this.users = await this.eventService.getAllUsers();
+    this.users.sort((a: User, b: User) => b.points - a.points);
+    const eventTarget = event.target as HTMLIonRefresherElement;
+    eventTarget.complete();
   }
 }
