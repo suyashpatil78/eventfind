@@ -78,7 +78,7 @@ export class EventpagePage implements OnInit {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Base64,
-      source: CameraSource.Camera,
+      source: CameraSource.Prompt,
     });
 
     const success = await this.eventService.participateEvent(
