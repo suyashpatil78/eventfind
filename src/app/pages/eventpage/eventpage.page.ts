@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DataService } from 'src/app/core/services/data.service';
+import { User } from 'src/app/core/models/user.model';
+import { Event } from 'src/app/core/models/event.model';
 
 @Component({
   selector: 'app-eventpage',
@@ -15,12 +17,19 @@ import { DataService } from 'src/app/core/services/data.service';
 })
 export class EventpagePage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
+
   pageEvent: Event;
-  user: any = null;
+
+  user: User = null;
+
   orderby: string;
+
   name: string;
-  event: any = null;
+
+  event: Event = null;
+
   blur = true;
+
   eventCreatorID = '';
 
   constructor(
@@ -32,13 +41,13 @@ export class EventpagePage implements OnInit {
     private authService: AuthService,
   ) {}
 
-  get currentEventId() {
-    return this.route.snapshot.params['id'];
+  get currentEventId(): string {
+    return this.route.snapshot.params['id'] as string;
   }
 
-  async ngOnInit() {
-    this.dataService.getID.subscribe(async (id: any) => {
-      const user: any = await this.authService.getCurrentUser();
+  async ngOnInit(): Promise<void> {
+    this.dataService.getID.subscribe(async (id) => {
+      const user = await this.authService.getCurrentUser();
       if (id) {
         this.eventCreatorID = id;
         if (id === user?.id || user?.events?.includes(id)) {
@@ -52,7 +61,7 @@ export class EventpagePage implements OnInit {
     });
   }
 
-  goToMap(event: any) {
+  goToMap(event: Event): Event {
     const latitude = event.location[0];
     const longitude = event.location[1];
     this.router.navigateByUrl(`tabs/map?lat=${latitude}&long=${longitude}`, {
@@ -61,7 +70,7 @@ export class EventpagePage implements OnInit {
     return event;
   }
 
-  async takePicture() {
+  async takePicture(): Promise<void> {
     const loading = await this.loadingController.create();
     await loading.present();
 
@@ -74,7 +83,7 @@ export class EventpagePage implements OnInit {
 
     const success = await this.eventService.participateEvent(
       image,
-      this.event.creatorPlayerID,
+      this.event.creatorUserID,
       this.user.id,
       this.currentEventId,
     );
@@ -86,9 +95,10 @@ export class EventpagePage implements OnInit {
     await loading.dismiss();
   }
 
-  async doRefresh(event: any) {
+  async doRefresh(event: Partial<CustomEvent>): Promise<void> {
     this.event = await this.eventService.getEvent(this.currentEventId);
-    event.target.complete();
+    const eventTarget = event.target as HTMLIonRefresherElement;
+    eventTarget.complete();
   }
 
   getRowIndices(): number[] {

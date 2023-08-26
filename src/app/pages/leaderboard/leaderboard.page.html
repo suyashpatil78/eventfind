@@ -36,15 +36,15 @@
   </ng-container>
 
   <ng-container *ngIf="!isLoading">
-    <ion-item *ngFor="let player of players; let i = index">
+    <ion-item *ngFor="let user of users; let i = index">
       <div class="row">
         <p><strong>{{i + 1}}</strong></p>
         <ion-avatar class="ion-avatar">
-          <img src="{{ player.picture }}" id="image" />
+          <img src="{{ user.picture }}" id="image" />
         </ion-avatar>
-        <p style="font-size: 1.15rem"><strong>{{ player.name }}</strong></p>
+        <p style="font-size: 1.15rem"><strong>{{ user.name }}</strong></p>
         <div>
-          <p>{{player?.points}}</p>
+          <p>{{user?.points}}</p>
           <p>💵</p>
         </div>
       </div>

@@ -5,14 +5,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
-  imageArray: any[] = [];
+  imageArray: string[] = [];
 
-  currentID = new BehaviorSubject('');
+  currentID = new BehaviorSubject<string>('');
+
   getID = this.currentID.asObservable();
 
-  constructor() {}
-
-  getCurrentID(message: string) {
+  getCurrentID(message: string): void {
     this.currentID.next(message);
   }
 }

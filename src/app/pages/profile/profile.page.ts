@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { User } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -9,7 +10,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  user: any = null;
+  user: User = null;
+
   isLoading = false;
 
   constructor(
@@ -18,13 +20,13 @@ export class ProfilePage implements OnInit {
     private authService: AuthService,
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.isLoading = true;
     this.user = await this.authService.getCurrentUser();
     this.isLoading = false;
   }
 
-  async signOut() {
+  async signOut(): Promise<void> {
     const loading = await this.loadingController.create();
     await loading.present();
 
@@ -34,9 +36,10 @@ export class ProfilePage implements OnInit {
     this.router.navigateByUrl('', { replaceUrl: true });
   }
 
-  async doRefresh(event: any) {
+  async doRefresh(event: Partial<CustomEvent>): Promise<void> {
     this.user = await this.authService.getCurrentUser();
-    event.target.complete();
+    const eventTarget = event.target as HTMLIonRefresherElement;
+    eventTarget.complete();
   }
 
   getRowIndices(): number[] {
