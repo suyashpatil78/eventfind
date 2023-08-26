@@ -32,17 +32,20 @@ export class EventpagePage implements OnInit {
     private authService: AuthService,
   ) {}
 
+  get currentEventId() {
+    return this.route.snapshot.params['id'];
+  }
+
   async ngOnInit() {
-    this.dataService.getID.subscribe(async (message: any) => {
+    this.dataService.getID.subscribe(async (id: any) => {
       const user: any = await this.authService.getCurrentUser();
-      if (message) {
-        this.eventCreatorID = message;
-        if (message === user?.id || user?.events?.includes(message)) {
+      if (id) {
+        this.eventCreatorID = id;
+        if (id === user?.id || user?.events?.includes(id)) {
           this.blur = false;
         }
 
-        const ev = await this.eventService.getEvent(this.route.snapshot.params['id']);
-        console.log('test', ev);
+        const ev = await this.eventService.getEvent(this.currentEventId);
         this.user = user;
         this.event = ev;
       }
@@ -50,7 +53,9 @@ export class EventpagePage implements OnInit {
   }
 
   goToMap(event: any) {
-    this.router.navigateByUrl(`tabs/map?lat=${event.location[0]}&long=${event.location[1]}`, {
+    const latitude = event.location[0];
+    const longitude = event.location[1];
+    this.router.navigateByUrl(`tabs/map?lat=${latitude}&long=${longitude}`, {
       replaceUrl: true,
     });
     return event;
@@ -71,18 +76,18 @@ export class EventpagePage implements OnInit {
       image,
       this.event.creatorPlayerID,
       this.user.id,
-      this.route.snapshot.params['id'],
+      this.currentEventId,
     );
 
     if (success) {
       this.blur = false;
-      this.event = await this.eventService.getEvent(this.route.snapshot.params['id']);
+      this.event = await this.eventService.getEvent(this.currentEventId);
     }
     await loading.dismiss();
   }
 
   async doRefresh(event: any) {
-    this.event = await this.eventService.getEvent(this.route.snapshot.params['id']);
+    this.event = await this.eventService.getEvent(this.currentEventId);
     event.target.complete();
   }
 

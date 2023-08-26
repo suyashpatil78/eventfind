@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -15,9 +16,9 @@ export class TabsPage implements OnInit {
 
   user: any;
 
-  isLoading: boolean = false;
+  isLoading = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoading = true;
     this.authService.subscribeToUserUpdates((user: any) => {
       this.user = user;
@@ -25,7 +26,7 @@ export class TabsPage implements OnInit {
     });
   }
 
-  goToProfilePage() {
+  goToProfilePage(): void {
     this.router.navigateByUrl('tabs/profile', { replaceUrl: true });
   }
 }

@@ -40,45 +40,12 @@
   </ng-container>
   <ng-container *ngIf="!isLoading">
     <ion-grid>
-      <ion-row>
-        <ion-col offset-4>
-          <div><img src="{{ user?.images[0] }}" /></div>
-        </ion-col>
-        <ion-col>
-          <div><img src="{{ user?.images[1] }}" /></div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col offset-4>
-          <div><img src="{{ user?.images[2] }}" /></div>
-        </ion-col>
-        <ion-col>
-          <div><img src="{{ user?.images[3] }}" /></div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col offset-4>
-          <div><img src="{{ user?.images[4] }}" /></div>
-        </ion-col>
-        <ion-col>
-          <div><img src="{{ user?.images[5] }}" /></div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col offset-4>
-          <div><img src="{{ user?.images[6] }}" /></div>
-        </ion-col>
-        <ion-col>
-          <div><img src="{{ user?.images[7] }}" /></div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col offset-4>
-          <div><img src="{{ user?.images[8] }}" /></div>
-        </ion-col>
-        <ion-col>
-          <div><img src="{{ user?.images[9] }}" /></div>
-        </ion-col>
+      <ion-row *ngFor="let rowIndex of getRowIndices()">
+        <ng-container *ngFor="let colIndex of getColumnIndices()">
+          <ion-col size="6" *ngIf="user?.images[getIndex(rowIndex, colIndex)] as imageUrl">
+            <div><img [src]="imageUrl" /></div>
+          </ion-col>
+        </ng-container>
       </ion-row>
     </ion-grid>
   </ng-container>

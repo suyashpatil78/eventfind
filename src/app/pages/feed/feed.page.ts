@@ -85,17 +85,17 @@ export class FeedPage implements OnInit {
         const result = await this.eventService.createEvent(
           this.user.id,
           this.image,
-          this.name,
+          this.name.value,
           [coordinates.coords.latitude, coordinates.coords.longitude],
-          this.description,
+          this.description.value,
         );
       } catch (err) {
         const result = await this.eventService.createEvent(
           this.user.id,
           this.image,
-          this.name,
+          this.name.value,
           ['23.2323', '81.2323'],
-          this.description,
+          this.description.value,
         );
       }
 

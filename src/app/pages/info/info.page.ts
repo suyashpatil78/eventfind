@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -12,7 +12,8 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class InfoPage implements OnInit {
   credentials!: FormGroup;
-  image: any;
+
+  image: Photo;
 
   constructor(
     private fb: FormBuilder,
@@ -26,13 +27,13 @@ export class InfoPage implements OnInit {
     return this.credentials.get('name');
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.credentials = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 
-  async takePicture() {
+  async takePicture(): Promise<void> {
     this.image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
@@ -41,19 +42,19 @@ export class InfoPage implements OnInit {
     });
   }
 
-  async createUser() {
+  async createUser(): Promise<void> {
     if (this.image) {
       const loading = await this.loadingController.create();
       await loading.present();
 
-      const result = await this.authService.createUser(this.image, this.name);
+      await this.authService.createUser(this.image, this.name);
       await loading.dismiss();
 
       this.router.navigateByUrl('tabs/feed', { replaceUrl: true });
     }
   }
 
-  async showAlert(header: string, message: string) {
+  async showAlert(header: string, message: string): Promise<void> {
     const alert = await this.alertController.create({
       header,
       message,

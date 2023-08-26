@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
 import {
   Firestore,
   collection,
@@ -19,7 +18,6 @@ import { CameraService } from './camera.service';
 })
 export class EventService {
   constructor(
-    private auth: Auth,
     private firestore: Firestore,
     private cameraService: CameraService,
   ) {}
@@ -29,7 +27,6 @@ export class EventService {
       const user = await getDoc(doc(this.firestore, 'users', id));
       return user.data();
     } catch (e) {
-      console.error(e);
       return null;
     }
   }
@@ -47,74 +44,67 @@ export class EventService {
       events.sort((a: any, b: any) => b.createdAt - a.createdAt);
       return events;
     } catch (e) {
-      console.error(e);
       return null;
     }
   }
 
   async getEvent(id: any) {
     try {
-      const conditions: QueryConstraint[] = [
-        where('creatorPlayerID', '==', id.split('-')[0]),
-        where('name', '==', id.split('-')[1]),
-        where('description', '==', id.split('-')[2]),
-      ];
-      const q = query(collection(this.firestore, 'events'), ...conditions);
-      const querySnapshot = await getDocs(q);
-
-      const event: any = querySnapshot.docs.map((d) => d.data())[0];
+      // Fetching event with the given id
+      const event: any = (await getDoc(doc(this.firestore, 'events', id))).data();
       const creator = await this.getPlayer(event.creatorPlayerID);
       event.creator = creator;
 
       return event;
     } catch (e) {
-      console.error(e);
+      return null;
     }
   }
 
   async createEvent(creatorPlayerID: any, rawImage: any, name: any, coordinates: any, description: any) {
     try {
       const player: any = await this.getPlayer(creatorPlayerID);
+      // We give a special ID based on creatorPlayerID, name and description
+      const eventId = `${creatorPlayerID}-${name}-${description}`;
       if (player.points >= 10) {
-        const image = await this.cameraService.uploadImage(rawImage, 'event/' + creatorPlayerID);
-        await setDoc(doc(this.firestore, 'events', `${creatorPlayerID}-${name.value}-${description.value}`), {
-          name: name.value,
+        const image = await this.cameraService.uploadImage(rawImage, 'event/' + eventId);
+        await setDoc(doc(this.firestore, 'events', eventId), {
+          name: name,
           location: coordinates,
-          description: description.value,
+          description: description,
           banner: image,
           imageArray: [image],
           creatorPlayerID,
           createdAt: Timestamp.now(),
         });
 
-        player.events.push(creatorPlayerID);
+        player.events.push(eventId);
         player.images.push(image);
         // 10 points will be deducted for creating an event
         player.points -= 10;
         await setDoc(doc(this.firestore, 'users', creatorPlayerID), player);
       }
     } catch (e) {
-      console.error(e);
+      return;
     }
   }
 
-  async participateEvent(rawImage: any, creatorPlayerID: any, playerID: any, id: any) {
+  async participateEvent(rawImage: any, creatorPlayerID: any, playerID: any, eventId: any) {
     try {
-      const image = await this.cameraService.uploadImage(rawImage, 'event/' + creatorPlayerID + '/' + playerID);
+      const image = await this.cameraService.uploadImage(rawImage, 'event/' + eventId + '/' + playerID);
 
-      const event = await this.getEvent(id);
+      const event = await this.getEvent(eventId);
       event.imageArray.push(image);
-      await setDoc(doc(this.firestore, 'events', creatorPlayerID), event);
+      await setDoc(doc(this.firestore, 'events', eventId), event);
 
       const player: any = await this.getPlayer(playerID);
-      player.events.push(creatorPlayerID);
+      player.events.push(eventId);
       player.images.push(image);
       player.points += 10;
       await setDoc(doc(this.firestore, 'users', playerID), player);
 
       return true;
     } catch (e) {
-      console.error(e);
       return false;
     }
   }
@@ -124,7 +114,6 @@ export class EventService {
       const users = await getDocs(collection(this.firestore, 'users'));
       return users.docs.map((d) => d.data());
     } catch (e) {
-      console.error(e);
       return null;
     }
   }

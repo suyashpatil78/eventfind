@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
-import { createUserWithEmailAndPassword, Auth, signInWithEmailAndPassword, User, signOut } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, onSnapshot, setDoc } from '@angular/fire/firestore';
+import {
+  createUserWithEmailAndPassword,
+  Auth,
+  signInWithEmailAndPassword,
+  User,
+  signOut,
+  UserCredential,
+  Unsubscribe,
+} from '@angular/fire/auth';
+import { DocumentData, Firestore, doc, getDoc, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { CameraService } from './camera.service';
+import { Photo } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +27,6 @@ export class AuthService {
       const { user } = await createUserWithEmailAndPassword(this.auth, email, password);
       return user;
     } catch (e) {
-      console.error(e);
       return null;
     }
   }
@@ -28,13 +36,17 @@ export class AuthService {
       const user = await signInWithEmailAndPassword(this.auth, email, password);
       return user;
     } catch (e) {
-      console.error(e);
       return null;
     }
   }
 
-  async createUser(image: any, name: any) {
-    const user = this.auth.currentUser as User;
+  /**
+   * This call is made in the info page.
+   * When user uploads an image using camera or gallery,
+   * the image is uploaded to Firebase Storage and the URL is stored in the user's document in the Firestore database.
+   */
+  async createUser(image: Photo, name: any) {
+    const user = this.auth.currentUser;
     const userDocRef = doc(this.firestore, 'users', user.uid);
     const picture = await this.cameraService.uploadImage(image, 'profile/' + user.uid);
     return setDoc(userDocRef, {
@@ -48,7 +60,11 @@ export class AuthService {
     });
   }
 
-  subscribeToUserUpdates(callback: any) {
+  /**
+   * This call is made in the leaderboard page.
+   * Whenever, there is a change in points, this function is called to update the points in the UI.
+   */
+  subscribeToUserUpdates(callback?: any) {
     const user = this.auth.currentUser;
     const userDocRef = doc(this.firestore, 'users', user.uid);
     return onSnapshot(userDocRef, (d) => {
@@ -66,7 +82,7 @@ export class AuthService {
     try {
       await signOut(this.auth);
     } catch (e) {
-      console.error(e);
+      return;
     }
   }
 }
