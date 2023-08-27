@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/core/services/event.service';
@@ -9,6 +8,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { User } from 'src/app/core/models/user.model';
 import { Event } from 'src/app/core/models/event.model';
+import { CameraService } from 'src/app/core/services/camera.service';
 
 @Component({
   selector: 'app-eventpage',
@@ -39,6 +39,7 @@ export class EventpagePage implements OnInit {
     private route: ActivatedRoute,
     private loadingController: LoadingController,
     private authService: AuthService,
+    private cameraService: CameraService,
   ) {}
 
   get currentEventId(): string {
@@ -74,12 +75,7 @@ export class EventpagePage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
 
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt,
-    });
+    const image = await this.cameraService.getPhoto();
 
     const success = await this.eventService.participateEvent(
       image,

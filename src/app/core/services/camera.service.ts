@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage, getDownloadURL, ref, uploadString } from '@angular/fire/storage';
-import { Photo } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +25,17 @@ export class CameraService {
     } catch (e) {
       return null;
     }
+  }
+
+  /**
+   */
+
+  async getPhoto(): Promise<Photo> {
+    return await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Prompt,
+    });
   }
 }

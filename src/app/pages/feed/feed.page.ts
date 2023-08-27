@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { LoadingController } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation';
 import { EventService } from 'src/app/core/services/event.service';
@@ -10,6 +9,8 @@ import { DataService } from 'src/app/core/services/data.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Event } from 'src/app/core/models/event.model';
 import { User } from 'src/app/core/models/user.model';
+import { CameraService } from 'src/app/core/services/camera.service';
+import { Photo } from '@capacitor/camera';
 
 @Component({
   selector: 'app-feed',
@@ -36,6 +37,7 @@ export class FeedPage implements OnInit {
     private loadingController: LoadingController,
     private authService: AuthService,
     private eventService: EventService,
+    private cameraService: CameraService,
   ) {}
 
   get name(): AbstractControl<string> {
@@ -76,12 +78,7 @@ export class FeedPage implements OnInit {
   }
 
   async takePicture(): Promise<void> {
-    this.image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt,
-    });
+    this.image = await this.cameraService.getPhoto();
   }
 
   async createEvent(): Promise<void> {

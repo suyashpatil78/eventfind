@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Photo } from '@capacitor/camera';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { CameraService } from 'src/app/core/services/camera.service';
 
 @Component({
   selector: 'app-info',
@@ -21,6 +22,7 @@ export class InfoPage implements OnInit {
     private alertController: AlertController,
     private authService: AuthService,
     private router: Router,
+    private cameraService: CameraService,
   ) {}
 
   get name(): AbstractControl<string> {
@@ -34,12 +36,7 @@ export class InfoPage implements OnInit {
   }
 
   async takePicture(): Promise<void> {
-    this.image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt,
-    });
+    this.image = await this.cameraService.getPhoto();
   }
 
   async createUser(): Promise<void> {
