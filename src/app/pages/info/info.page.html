@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Create User Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="createUser()" [formGroup]="profileDetails">
+    <ion-item fill="solid" class="ion-margin-bottom">
+      <ion-input placeholder="Name" formControlName="name"></ion-input>
+      <ion-note
+        slot="error"
+        *ngIf="(profileDetails.controls.name.dirty || profileDetails.controls.name.touched) && profileDetails.controls.name.errors"
+        >Name is invalid</ion-note
+      >
+    </ion-item>
+    <ion-button type="button" expand="block" (click)="takePicture()">Choose Profile Picture</ion-button>
+    <ion-button type="submit" expand="block" [disabled]="!profileDetails.valid || !image">Create Account</ion-button>
+  </form>
+</ion-content>
