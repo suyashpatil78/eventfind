@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, User as FirebaseUser } from '@angular/fire/auth';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  User as FirebaseUser,
+  signInWithEmailAndPassword,
+} from '@angular/fire/auth';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { Photo } from '@capacitor/camera';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
@@ -62,5 +67,14 @@ export class AuthService {
       this.auth.signOut();
       return throwError('No user found!');
     }
+  }
+
+  login({ email, password }: { email: string; password: string }): Observable<FirebaseUser> {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      map((userCredential) => userCredential.user),
+      catchError((error) => {
+        return throwError(error);
+      }),
+    );
   }
 }

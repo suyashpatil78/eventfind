@@ -1,0 +1,27 @@
+@import '../../../theme/colors.scss';
+
+ion-toolbar {
+  --background: #{$brand-primary-active};
+  --color: #{$white};
+}
+
+ion-button {
+  --background: #{$brand-primary};
+  --background-hover: #{$brand-primary};
+  --background-activated: #{$brand-primary-active};
+  --background-focused: #{$brand-primary-active};
+
+  --color: #{$black};
+}
+
+.info--form {
+  margin-top: 56px;
+}
+
+.info--button-group {
+  margin-top: 24px;
+
+  &__create-account {
+    margin-top: 16px;
+  }
+}

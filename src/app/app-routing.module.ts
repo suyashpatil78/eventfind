@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard, AuthPipe, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+
+const redirectLoggedInToItems = (): AuthPipe => redirectLoggedInTo(['/tabs/feed']);
+const redirectUnauthorizedToLogin = (): AuthPipe => redirectUnauthorizedTo(['/login']);
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectLoggedInToItems },
   },
   {
     path: 'register',
@@ -14,6 +19,18 @@ const routes: Routes = [
   {
     path: 'info',
     loadChildren: () => import('./pages/info/info.module').then((m) => m.InfoPageModule),
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectLoggedInToItems },
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
 ];
 

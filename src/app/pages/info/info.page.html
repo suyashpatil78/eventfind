@@ -1,11 +1,11 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Create User Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="createUser()" [formGroup]="profileDetails">
+  <form class="info--form" (ngSubmit)="createUser()" [formGroup]="profileDetails">
     <ion-item fill="solid" class="ion-margin-bottom">
       <ion-input placeholder="Name" formControlName="name"></ion-input>
       <ion-note
@@ -14,7 +14,15 @@
         >Name is invalid</ion-note
       >
     </ion-item>
-    <ion-button type="button" expand="block" (click)="takePicture()">Choose Profile Picture</ion-button>
-    <ion-button type="submit" expand="block" [disabled]="!profileDetails.valid || !image">Create Account</ion-button>
+    <div class="info--button-group">
+      <ion-button type="button" expand="block" (click)="takePicture()">Choose Profile Picture</ion-button>
+      <ion-button
+        type="submit"
+        expand="block"
+        class="info--button-group__create-account"
+        [disabled]="!profileDetails.valid || !image"
+        >Create Account</ion-button
+      >
+    </div>
   </form>
 </ion-content>
