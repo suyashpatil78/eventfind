@@ -14,9 +14,9 @@ import { LoaderService } from 'src/app/core/services/loader.service';
   styleUrls: ['./info.page.scss'],
 })
 export class InfoPage implements OnInit {
-  profileDetails!: FormGroup;
+  profileDetails: FormGroup;
 
-  image!: Photo;
+  image: Photo;
 
   constructor(
     private fb: FormBuilder,

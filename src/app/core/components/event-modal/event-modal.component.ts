@@ -15,7 +15,7 @@ import { User } from '../../models/user.model';
   styleUrls: ['./event-modal.component.scss'],
 })
 export class EventModalComponent implements OnInit {
-  eventForm!: FormGroup;
+  eventForm: FormGroup;
 
   image: Photo = null;
 

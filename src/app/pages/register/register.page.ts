@@ -20,7 +20,7 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
   ) {}
 
-  fg!: FormGroup;
+  fg: FormGroup;
 
   ngOnInit(): void {
     this.fg = this.formBuilder.group({

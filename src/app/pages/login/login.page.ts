@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
     private alertController: AlertController,
   ) {}
 
-  fg!: FormGroup;
+  fg: FormGroup;
 
   ngOnInit(): void {
     this.fg = this.formBuilder.group({
