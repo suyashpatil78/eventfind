@@ -23,13 +23,7 @@
 * Run `npx cap sync` and then run `ionic cap run android`, select an emulator and run the app.
 
 
-
-https://github.com/suyashpatil78/eventfind/assets/127177049/69ae0db4-d7d0-4c48-bef6-110907f0275f
-
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/55d07a5c-9afa-4a5d-a5cc-6d3484f2364c" width='260px' height='540px' />
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/e173e998-2f1a-4650-bca1-ce22ad0b9849" width='260px' height='540px' />
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/99a702d6-cfde-44d6-bc35-861a6e81fa3a" width='260px' height='540px' />
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/76ee50a2-7b58-4151-acb6-9b015d10479b" width='260px' height='540px' />
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/62960038-b7ff-43be-987f-19a715708a63" width='260px' height='540px' />
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/4539954b-5812-4ee4-8f93-c11d6b3b8ca3" width='260px' height='540px' />
-<img src="https://github.com/suyashpatil78/eventfind/assets/127177049/fe9644e6-9100-42dc-8186-b4a7712d8f6c" width='260px' height='540px' />
+<img width="385" alt="Screenshot 2024-03-25 at 5 18 11 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/a646dd09-4082-4e6d-9718-93b2d39698a1">
+<img width="385" alt="Screenshot 2024-03-25 at 5 18 58 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/2a7d3593-c5bc-46e6-8cbf-f23c58421d2e">
+<img width="385" alt="Screenshot 2024-03-25 at 5 19 20 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/2e81197b-aec3-423a-8396-3c70c983961b">
+<img width="385" alt="Screenshot 2024-03-25 at 5 19 45 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/cb44e160-76d4-43d4-85aa-627575b06918">
