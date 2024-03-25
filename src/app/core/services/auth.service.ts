@@ -109,4 +109,8 @@ export class AuthService {
       return throwError('Authentication failed!');
     }
   }
+
+  signOut(): Observable<void> {
+    return from(this.auth.signOut());
+  }
 }

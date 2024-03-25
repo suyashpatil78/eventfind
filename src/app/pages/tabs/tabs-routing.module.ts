@@ -29,6 +29,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('../profile/profile.module').then((m) => m.ProfilePageModule),
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
     ],
   },
 ];

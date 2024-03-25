@@ -1,0 +1,50 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <h1 style="text-align: center">
+    <ion-skeleton-text *ngIf="isLoading" style="margin: auto; width: 70%; height: 20px"></ion-skeleton-text>
+    <strong *ngIf="!isLoading">Welcome, {{ user?.name }}!</strong>
+  </h1>
+
+  <ion-buttons class="btn-group">
+    <ion-button class="logout-btn" expand="block" (click)="signOut()">Logout</ion-button>
+  </ion-buttons>
+
+  <div class="profile-stats">
+    <ul>
+      <li><span class="profile-stat-count">{{ user?.points }}</span>Coins</li>
+      <li><span class="profile-stat-count">{{ user?.images.length }}</span>Photos</li>
+    </ul>
+  </div>
+
+  <ng-container *ngIf="isLoading">
+    <ion-row>
+      <ion-col offset-4>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
+      </ion-col>
+      <ion-col>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col offset-4>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
+      </ion-col>
+      <ion-col>
+        <ion-skeleton-text style="height: 160px" [animated]="true"></ion-skeleton-text>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+  <ng-container *ngIf="!isLoading">
+    <ion-grid>
+      <ion-row *ngFor="let rowIndex of getRowIndices()">
+        <ng-container *ngFor="let colIndex of getColumnIndices()">
+          <ion-col size="6" *ngIf="user?.images[getIndex(rowIndex, colIndex)] as imageUrl">
+            <div><img [src]="imageUrl" /></div>
+          </ion-col>
+        </ng-container>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+</ion-content>
