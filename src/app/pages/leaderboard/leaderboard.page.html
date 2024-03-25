@@ -1,0 +1,35 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-item>
+    <ion-label>
+      <h1 class="leaderboard__header">Leaderboard</h1>
+    </ion-label>
+  </ion-item>
+
+  <ng-container *ngIf="isLoading">
+    <div *ngFor="let _ of [].constructor(4)" class="row">
+      <ion-thumbnail class="leaderboard__thumbnail">
+        <ion-skeleton-text class="leaderboard__skeleton--image" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text class="leaderboard__skeleton--text"></ion-skeleton-text>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoading">
+    <ion-item *ngFor="let user of users; let i = index">
+      <div class="row">
+        <p><strong>{{i + 1}}</strong></p>
+        <ion-avatar class="leaderboard__user--avatar">
+          <img src="{{ user.picture }}" id="image" />
+        </ion-avatar>
+        <p class="leaderboard__user--name"><strong>{{ user.name }}</strong></p>
+        <div>
+          <p>{{user?.points}}</p>
+          <p>💵</p>
+        </div>
+      </div>
+    </ion-item>
+  </ng-container>
+</ion-content>

@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   Unsubscribe,
 } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, onSnapshot, setDoc } from '@angular/fire/firestore';
+import { collection, doc, Firestore, getDoc, getDocs, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { Photo } from '@capacitor/camera';
 import { catchError, from, map, noop, Observable, switchMap, throwError } from 'rxjs';
 import { FileService } from './file.service';
@@ -112,5 +112,11 @@ export class AuthService {
 
   signOut(): Observable<void> {
     return from(this.auth.signOut());
+  }
+
+  getAllUsers(): Observable<User[]> {
+    return from(getDocs(collection(this.firestore, 'users'))).pipe(
+      map((users) => users.docs.map((d) => d.data() as User)),
+    );
   }
 }

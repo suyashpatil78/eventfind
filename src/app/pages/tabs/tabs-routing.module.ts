@@ -35,6 +35,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
+      {
+        path: 'leaderboard',
+        loadChildren: () => import('../leaderboard/leaderboard.module').then((m) => m.LeaderboardPageModule),
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
     ],
   },
 ];
