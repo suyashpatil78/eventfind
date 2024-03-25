@@ -23,6 +23,12 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
+      {
+        path: 'map',
+        loadChildren: () => import('../map/map.module').then((m) => m.MapPageModule),
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
     ],
   },
 ];
