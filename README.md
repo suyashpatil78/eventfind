@@ -27,3 +27,5 @@
 <img width="385" alt="Screenshot 2024-03-25 at 5 18 58 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/2a7d3593-c5bc-46e6-8cbf-f23c58421d2e">
 <img width="385" alt="Screenshot 2024-03-25 at 5 19 20 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/2e81197b-aec3-423a-8396-3c70c983961b">
 <img width="385" alt="Screenshot 2024-03-25 at 5 19 45 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/cb44e160-76d4-43d4-85aa-627575b06918">
+<img width="385" alt="Screenshot 2024-03-25 at 5 20 38 PM" src="https://github.com/suyashpatil78/eventfind/assets/127177049/af091837-0a79-4ca4-80b6-daffefafd1e0">
+
