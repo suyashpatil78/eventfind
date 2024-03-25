@@ -1,0 +1,105 @@
+@import '../../../theme/colors.scss';
+
+.bg-image {
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.main-card {
+  padding-bottom: 10%;
+}
+
+.main-button {
+  padding-left: 50%;
+}
+
+.blur {
+  text-align: center;
+  --background: ;
+}
+
+#open {
+  padding-bottom: 5%;
+  padding-right: 5%;
+}
+
+.topHeading {
+  text-align: center;
+}
+
+.profile-stats {
+  float: left;
+  width: calc(66.666% - 2rem);
+}
+
+.profile-stats {
+  float: left;
+  width: calc(66.666% - 2rem);
+}
+.profile-stats {
+  margin-top: 2.3rem;
+}
+
+.profile-stats li {
+  display: inline-block;
+  font-size: 0.1rem;
+  line-height: 1.5;
+  margin-right: 4rem;
+  cursor: pointer;
+}
+
+.profile-stats li:last-of-type {
+  margin-right: 0;
+}
+
+.profile-stat-count {
+  font-weight: 600;
+}
+
+@media screen and (max-width: 40rem) {
+  .profile {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 4rem 0;
+  }
+
+  .profile::after {
+    display: none;
+  }
+
+  .profile-stats {
+    float: none;
+    width: auto;
+  }
+
+  .profile-stats {
+    flex-basis: 100%;
+  }
+
+  .profile-stats {
+    order: 1;
+    margin-top: 1.5rem;
+  }
+
+  .profile-stats ul {
+    display: flex;
+    text-align: center;
+    padding: 1.2rem 0;
+    border-top: 0.1rem solid $border-color;
+    border-bottom: 0.1rem solid $border-color;
+  }
+
+  .profile-stats li {
+    font-size: 1rem;
+    flex: 1;
+    margin: 0;
+  }
+
+  .profile-stat-count {
+    display: block;
+  }
+}

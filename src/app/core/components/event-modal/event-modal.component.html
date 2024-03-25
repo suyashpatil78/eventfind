@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar class="event-modal__toolbar" mode="md">
+    <ion-title class="event-modal__title">Create an Event</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="event-modal">
+  <form (ngSubmit)="createEvent()" [formGroup]="eventForm">
+    <ion-item>
+      <ion-label position="floating">Event Name</ion-label>
+      <ion-input formControlName="name" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Event Description</ion-label>
+      <ion-textarea formControlName="description" required></ion-textarea>
+    </ion-item>
+    <ion-button
+      class="event-modal__take-picture-btn"
+      expand="block"
+      color="warning"
+      fill="outline"
+      *ngIf="!image"
+      (click)="takePicture()"
+    >
+      Take a picture!
+      <ion-icon slot="end" name="camera-outline"></ion-icon>
+    </ion-button>
+    <hr />
+    <ion-button *ngIf="image" type="button" color="success" expand="block" fill="outline">
+      Picture Uploaded!
+    </ion-button>
+    <ion-button
+      class="event-modal__save-event-btn"
+      (click)="createEvent()"
+      type="submit"
+      [disabled]="!eventForm.valid || !this.image"
+      color="warning"
+      expand="block"
+    >
+      Save Event
+      <ion-icon name="enter-outline" size="large" slot="end"></ion-icon>
+    </ion-button>
+  </form>
+</ion-content>

@@ -1,13 +1,31 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>tabs</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-tabs>
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">tabs</ion-title>
+      <div class="header">
+        <p>💵</p>
+        <p>{{user?.points}}</p>
+        <ion-thumbnail *ngIf="isLoading" slot="start">
+          <ion-skeleton-text class="avatar" [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <img *ngIf="!isLoading" src="{{user?.picture}}" class="avatar" (click)="goToProfilePage()" />
+      </div>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="map">
+      <ion-icon name="image-outline"></ion-icon>
+      <ion-label>Map</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="feed">
+      <ion-icon name="calendar-number-outline"></ion-icon>
+      <ion-label>Events</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="leaderboard">
+      <ion-icon name="podium-outline"></ion-icon>
+      <ion-label>Leaderboard</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

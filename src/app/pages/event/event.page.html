@@ -1,0 +1,43 @@
+<ion-content *ngIf="event">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <h1 style="text-align: center"><strong>{{ event.name }}</strong></h1>
+
+  <div class="profile-stats">
+    <ul>
+      <li>
+        <span class="profile-stat-count">{{ event.imageArray.length }}</span>
+        Photos
+      </li>
+      <li>
+        <ion-button (click)="goToMap(event)" color="warning"> <ion-icon name="navigate-outline"></ion-icon></ion-button>
+      </li>
+    </ul>
+  </div>
+
+  <ion-card class="blur" *ngIf="blur">
+    <ion-card-header>
+      <ion-card-title><ion-icon size="large" name="eye-off-outline"></ion-icon></ion-card-title>
+      <ion-card-title><strong>Hidden Content</strong></ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="mainCard">
+      <strong>Check-in with a photo upload yourself to discover some others!</strong>
+    </ion-card-content>
+    <ion-button color="warning" fill="outline" (click)="takePicture()"
+      >Check-in <ion-icon slot="end" name="camera-outline"></ion-icon
+    ></ion-button>
+    <hr />
+  </ion-card>
+
+  <ion-grid [fixed]="true" *ngIf="!blur">
+    <ion-row *ngFor="let rowIndex of getRowIndices()">
+      <ng-container *ngFor="let colIndex of getColumnIndices()">
+        <ion-col size="6" *ngIf="event.imageArray[getIndex(rowIndex, colIndex)] as imageUrl">
+          <div><img [src]="imageUrl" /></div>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>

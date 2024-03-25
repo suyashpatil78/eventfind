@@ -1,13 +1,60 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>feed</ion-title>
-  </ion-toolbar>
+<ion-header>
+  <ion-title id="cardTitle">
+    <h2 id="topHeading"><strong>Events near you!</strong></h2>
+  </ion-title>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">feed</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [scrollEvents]="true" *ngIf="events" class="feed--content">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="isLoading">
+    <ion-row class="event-main">
+      <ion-thumbnail>
+        <ion-skeleton-text class="ion-avatar" style="border-radius: 50%" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text style="margin-left: 0; width: 40%" [animated]="true"></ion-skeleton-text>
+    </ion-row>
+    <div class="image-container">
+      <ion-skeleton-text class="banner" style="height: 250px" [animated]="true"></ion-skeleton-text>
+    </div>
+    <ion-row class="event-main">
+      <ion-thumbnail>
+        <ion-skeleton-text class="ion-avatar" style="border-radius: 50%" [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-skeleton-text style="margin-left: 0; width: 40%" [animated]="true"></ion-skeleton-text>
+    </ion-row>
+    <div class="image-container">
+      <ion-skeleton-text class="banner" style="height: 250px" [animated]="true"></ion-skeleton-text>
+    </div>
+  </ng-container>
+  <div *ngIf="events.length > 0">
+    <ng-container *ngIf="!isLoading">
+      <div *ngFor="let event of events; let i = index">
+        <ion-row class="event-main" (click)="onEventClick(event)">
+          <ion-avatar class="ion-avatar">
+            <img src="{{ event.creator.picture }}" id="image" />
+          </ion-avatar>
+          <div class="eventDetails">
+            <p><strong>{{ event.name }}</strong></p>
+            <p class="eventDetails--creator">
+              <strong>By {{ event.creator.name }}</strong>
+            </p>
+          </div>
+          <ion-icon name="ellipsis-vertical-outline" size="medium"></ion-icon>
+        </ion-row>
+
+        <div class="image-container" (click)="onEventClick(event)">
+          <img class="banner" [src]="event.banner" />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="!image">
+    <ion-fab-button (click)="openEventModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

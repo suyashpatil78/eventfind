@@ -4,11 +4,13 @@ import {
   createUserWithEmailAndPassword,
   User as FirebaseUser,
   signInWithEmailAndPassword,
+  Unsubscribe,
 } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, getDoc, onSnapshot, setDoc } from '@angular/fire/firestore';
 import { Photo } from '@capacitor/camera';
-import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, from, map, noop, Observable, switchMap, throwError } from 'rxjs';
 import { FileService } from './file.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -76,5 +78,35 @@ export class AuthService {
         return throwError(error);
       }),
     );
+  }
+
+  subscribeToUserUpdates(callback: (_: User) => void): Unsubscribe {
+    const user = this.auth.currentUser;
+
+    if (user) {
+      // Get the reference to the user document in Firestore
+      const userDocRef = doc(this.firestore, 'users', user.uid);
+
+      // Whenever the user document changes, update the user property
+      return onSnapshot(userDocRef, (d) => {
+        const userData = d.data() as User;
+        callback(userData);
+      });
+    } else {
+      this.auth.signOut();
+      return noop;
+    }
+  }
+
+  getCurrentUser(): Observable<User> {
+    const user = this.auth.currentUser;
+
+    if (user) {
+      // Get the reference to the user document in Firestore
+      return from(getDoc(doc(this.firestore, 'users', user.uid))).pipe(map((d) => d.data() as User));
+    } else {
+      this.auth.signOut();
+      return throwError('Authentication failed!');
+    }
   }
 }

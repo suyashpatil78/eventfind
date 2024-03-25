@@ -1,0 +1,29 @@
+@import '../../../../theme/colors.scss';
+
+.event-modal {
+  &__toolbar {
+    margin-top: calc(env(safe-area-inset-top));
+  }
+
+  &__title {
+    text-align: center;
+  }
+
+  &__take-picture-btn {
+    margin: 20px auto 0px auto;
+    width: 90%;
+  }
+
+  &__save-event-btn {
+    margin: auto;
+    width: 90%;
+  }
+}
+
+ion-button {
+  margin: 10px;
+  --background: #{$brand-dark};
+  --background-focused: #{$brand-dark-2};
+  --background-hover: #{$brand-dark-2};
+  --background-activated: #{$brand-dark-2};
+}
