@@ -19,7 +19,7 @@
 
 .blur {
   text-align: center;
-  --background:  
+  --background:   
     ;
 }
 
@@ -107,7 +107,11 @@
 
 .logout-btn {
   margin: auto;
-  width: 75%;
+  width: 60%;
+  text-transform: initial;
+  background-color: $brand-dark;
+  color: $white;
+  border-radius: 10px;
 }
 
 ion-button {
@@ -117,10 +121,4 @@ ion-button {
   --background-hover: #{$brand-dark-2};
   --background-activated: #{$brand-dark-2};
   --color: #{$white};
-}
-
-ion-refresher,
-ion-refresher-content {
-  --background: #{$white} !important;
-  background: $white !important;
 }

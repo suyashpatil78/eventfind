@@ -1,13 +1,13 @@
-<ion-header>
-  <ion-title id="cardTitle">
-    <h2 id="topHeading"><strong>Events near you!</strong></h2>
-  </ion-title>
-</ion-header>
-
 <ion-content [scrollEvents]="true" *ngIf="events" class="feed--content">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <ion-item>
+    <ion-label>
+      <h1 id="topHeading">Events near you!</h1>
+    </ion-label>
+  </ion-item>
 
   <ng-container *ngIf="isLoading">
     <ion-row class="event-main">
