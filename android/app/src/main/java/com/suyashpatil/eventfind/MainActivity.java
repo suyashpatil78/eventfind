@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.suyashpatil.eventfind;
 
 import com.getcapacitor.BridgeActivity;
 
