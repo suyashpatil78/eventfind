@@ -5,6 +5,8 @@
 * Users can participate in other events by submitting their photos.
 * Events can be located real-time on map section. Stadiamap and leaflet is used for showing map.
 
+## APK - [Release APK](https://github.com/suyashpatil78/eventfind/releases/tag/v1.0)
+
 ## Technologies Used
 * Ionic v7
 * Angular v16
