@@ -28,3 +28,32 @@
 ion-item {
   --background: transparent;
 }
+
+ion-toast {
+  height: calc(100% - 70px);
+  border-radius: 10px;
+}
+
+toast-wrapper {
+  border-radius: 10px;
+}
+
+ion-toast.toast-success {
+  --background: none;
+  &::part(container) {
+    background: #24a148;
+    color: #fff;
+    border-color: #24a148;
+    border-radius: 4px;
+  }
+}
+
+ion-toast.toast-failure {
+  --background: none;
+  &::part(container) {
+    background: #da1e28;
+    color: #fff;
+    border-color: #da1e28;
+    border-radius: 4px;
+  }
+}

@@ -8,6 +8,8 @@ import { LoaderService } from '../../services/loader.service';
 import { LocationService } from '../../services/location.service';
 import { EventService } from '../../services/event.service';
 import { User } from '../../models/user.model';
+import { ToastService } from '../../services/toast.service';
+import { ToastType } from '../../enums/ToastType.enum';
 
 @Component({
   selector: 'app-event-modal',
@@ -27,6 +29,7 @@ export class EventModalComponent implements OnInit {
     private loaderService: LoaderService,
     private locationService: LocationService,
     private eventService: EventService,
+    private toastService: ToastService,
   ) {}
 
   get eventName(): string {
@@ -70,6 +73,7 @@ export class EventModalComponent implements OnInit {
                   this.eventDescription,
                 );
               } else {
+                this.toastService.showToast(ToastType.FAILURE, 'Please attach an image');
                 return throwError('User or image not found');
               }
             }),
@@ -77,6 +81,7 @@ export class EventModalComponent implements OnInit {
             finalize(() => from(this.loaderService.hideLoader())),
           )
           .subscribe(() => {
+            this.toastService.showToast(ToastType.SUCCESS, 'Event created successfully');
             this.modalController.dismiss({ action: 'save' });
           });
       } else {

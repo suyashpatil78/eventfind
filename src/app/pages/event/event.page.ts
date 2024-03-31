@@ -9,6 +9,8 @@ import { Event } from 'src/app/core/models/event.model';
 import { CameraService } from 'src/app/core/services/camera.service';
 import { forkJoin, from, switchMap, tap } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { ToastService } from 'src/app/core/services/toast.service';
+import { ToastType } from 'src/app/core/enums/ToastType.enum';
 
 @Component({
   selector: 'app-event',
@@ -39,6 +41,7 @@ export class EventPage implements OnInit {
     private authService: AuthService,
     private cameraService: CameraService,
     private loaderService: LoaderService,
+    private toastService: ToastService,
   ) {}
 
   get currentEventId(): string {
@@ -76,6 +79,7 @@ export class EventPage implements OnInit {
       )
       .subscribe(() => {
         this.loaderService.hideLoader();
+        this.toastService.showToast(ToastType.SUCCESS, 'You have successfully participated in the event');
         this.blur = false;
         this.doRefresh();
       });
