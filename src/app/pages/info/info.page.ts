@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Photo } from '@capacitor/camera';
 import { Platform } from '@ionic/angular';
-import { from, switchMap, tap } from 'rxjs';
+import { from, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { CameraService } from 'src/app/core/services/camera.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -37,15 +37,16 @@ export class InfoPage implements OnInit {
     });
   }
 
-  takePicture(): void {
-    from(this.cameraService.getPhoto()).pipe(tap((image) => (this.image = image)));
+  async takePicture(): Promise<void> {
+    this.image = await this.cameraService.getPhoto();
   }
 
   createUser(): void {
     if (this.image) {
-      from(this.loaderService.showLoader())
+      from(this.loaderService.showLoader('Signing you up...', 15 * 1000))
         .pipe(switchMap(() => this.authService.createUser(this.image, this.name)))
         .subscribe(() => {
+          this.loaderService.hideLoader();
           this.router.navigateByUrl('tabs/feed', { replaceUrl: true });
         });
     }

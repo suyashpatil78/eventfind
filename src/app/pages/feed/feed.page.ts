@@ -68,11 +68,11 @@ export class FeedPage implements OnInit {
     });
   }
 
-  doRefresh(event: Partial<CustomEvent>): void {
+  doRefresh(event?: Partial<CustomEvent>): void {
     from(this.eventService.getAllEvents()).subscribe((events) => {
       this.events = events;
-      const eventTarget = event.target as HTMLIonRefresherElement;
-      eventTarget.complete();
+      const eventTarget = event?.target as HTMLIonRefresherElement;
+      eventTarget?.complete?.();
     });
   }
 
@@ -92,8 +92,12 @@ export class FeedPage implements OnInit {
     )
       .pipe(
         tap((modal) => modal.present()),
-        switchMap((modal) => modal.onWillDismiss()),
+        switchMap((modal) => modal.onWillDismiss() as Promise<{ data: { action: string } }>),
       )
-      .subscribe();
+      .subscribe((modalResponse) => {
+        if (modalResponse?.data?.action === 'save') {
+          this.doRefresh();
+        }
+      });
   }
 }

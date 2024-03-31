@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
 import { Event } from 'src/app/core/models/event.model';
 import { CameraService } from 'src/app/core/services/camera.service';
-import { finalize, forkJoin, from, switchMap } from 'rxjs';
+import { forkJoin, from, switchMap, tap } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
@@ -53,9 +53,9 @@ export class EventPage implements OnInit {
       this.eventCreatorID = user.id;
       if (user.id === event.creatorUserID || user.events.includes(this.currentEventId)) {
         this.blur = false;
-        this.user = user;
-        this.event = event;
       }
+      this.user = user;
+      this.event = event;
     });
   }
 
@@ -69,22 +69,23 @@ export class EventPage implements OnInit {
   }
 
   async takePicture(): Promise<void> {
-    from(this.loaderService.showLoader())
+    from(this.cameraService.getPhoto())
       .pipe(
-        switchMap(() => this.cameraService.getPhoto()),
+        tap(() => this.loaderService.showLoader('Uploading your picture...')),
         switchMap((image) => this.eventService.participateEvent(image, this.user.id, this.currentEventId)),
-        finalize(() => this.loaderService.hideLoader()),
       )
       .subscribe(() => {
+        this.loaderService.hideLoader();
         this.blur = false;
+        this.doRefresh();
       });
   }
 
-  doRefresh(evt: Partial<CustomEvent>): void {
+  doRefresh(evt?: Partial<CustomEvent>): void {
     from(this.eventService.getEvent(this.currentEventId)).subscribe((event) => {
       this.event = event;
-      const eventTarget = evt.target as HTMLIonRefresherElement;
-      eventTarget.complete();
+      const eventTarget = evt?.target as HTMLIonRefresherElement;
+      eventTarget?.complete?.();
     });
   }
 

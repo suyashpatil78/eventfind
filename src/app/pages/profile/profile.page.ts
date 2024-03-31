@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, from, switchMap } from 'rxjs';
+import { from, switchMap } from 'rxjs';
 import { User } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -31,11 +31,9 @@ export class ProfilePage implements OnInit {
 
   signOut(): void {
     from(this.loaderService.showLoader('Signing out...'))
-      .pipe(
-        switchMap(() => this.authService.signOut()),
-        finalize(() => this.loaderService.hideLoader()),
-      )
+      .pipe(switchMap(() => this.authService.signOut()))
       .subscribe(() => {
+        this.loaderService.hideLoader();
         this.router.navigateByUrl('/login', { replaceUrl: true });
       });
   }

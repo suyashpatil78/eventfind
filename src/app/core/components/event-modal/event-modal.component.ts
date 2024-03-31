@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { catchError, finalize, from, switchMap, tap, throwError } from 'rxjs';
+import { catchError, finalize, from, switchMap, throwError } from 'rxjs';
 import { CameraService } from '../../services/camera.service';
 import { Photo } from '@capacitor/camera';
 import { LoaderService } from '../../services/loader.service';
@@ -48,31 +48,40 @@ export class EventModalComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  takePicture(): void {
-    from(this.cameraService.getPhoto()).pipe(tap((image) => (this.image = image)));
+  async takePicture(): Promise<void> {
+    this.image = await this.cameraService.getPhoto();
   }
 
   createEvent(): void {
-    from(this.loaderService.showLoader())
-      .pipe(
-        switchMap(() => this.locationService.getLocationCoordinates()),
-        catchError((error) => throwError(error)),
-        finalize(() => this.loaderService.hideLoader()),
-      )
-      .subscribe((coordinates) => {
-        if (this.user && this.image) {
-          const location = [coordinates.coords.latitude, coordinates.coords.longitude];
+    from(this.locationService.requestPermission()).subscribe((permission) => {
+      if (permission) {
+        return from(this.loaderService.showLoader('Creating your event...', 20 * 1000))
+          .pipe(
+            switchMap(() => this.locationService.getLocationCoordinates()),
+            switchMap((coordinates) => {
+              if (this.user && this.image) {
+                const location = [coordinates.coords.latitude, coordinates.coords.longitude];
 
-          return this.eventService.createEvent(
-            this.user.id,
-            this.image,
-            this.eventName,
-            location,
-            this.eventDescription,
-          );
-        } else {
-          return throwError('User or image not found');
-        }
-      });
+                return this.eventService.createEvent(
+                  this.user.id,
+                  this.image,
+                  this.eventName,
+                  location,
+                  this.eventDescription,
+                );
+              } else {
+                return throwError('User or image not found');
+              }
+            }),
+            catchError((error) => throwError(error)),
+            finalize(() => from(this.loaderService.hideLoader())),
+          )
+          .subscribe(() => {
+            this.modalController.dismiss({ action: 'save' });
+          });
+      } else {
+        return this.createEvent();
+      }
+    });
   }
 }

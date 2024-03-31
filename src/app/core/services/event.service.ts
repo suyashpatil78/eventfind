@@ -13,11 +13,11 @@ import {
   tap,
   throwError,
 } from 'rxjs';
-import { AuthService } from './auth.service';
 import { Event } from '../models/event.model';
 import { User } from '../models/user.model';
 import { Photo } from '@capacitor/camera';
 import { FileService } from './file.service';
+import { ModalController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,8 @@ import { FileService } from './file.service';
 export class EventService {
   constructor(
     private fireStore: Firestore,
-    private authService: AuthService,
     private fileService: FileService,
+    private modalController: ModalController,
   ) {}
 
   getUser(id: string): Observable<User> {
@@ -58,53 +58,57 @@ export class EventService {
     );
   }
 
-  createEvent(creatorUserID: string, image: Photo, name: string, coordinates: number[], description: string): void {
+  createEvent(
+    creatorUserID: string,
+    image: Photo,
+    name: string,
+    coordinates: number[],
+    description: string,
+  ): Observable<void> {
     const eventId = `${creatorUserID}-${name}-${description}`;
 
     // Upload the image to Firebase Storage
     const image$ = from(this.fileService.uploadFile(image, `event/${eventId}`)).pipe(shareReplay(1));
 
     // Fetch the creator of the event to check the points
-    this.getUser(creatorUserID)
-      .pipe(
-        tap((user) => {
-          if (user.points < 10) {
-            return throwError('Not enough points');
-          } else {
-            return user;
-          }
+    return this.getUser(creatorUserID).pipe(
+      tap((user) => {
+        if (user.points < 10) {
+          return throwError('Not enough points');
+        } else {
+          return user;
+        }
+      }),
+      // Resolve the file upload here
+      switchMap((user) =>
+        forkJoin({
+          user: of(user),
+          image: image$,
         }),
-        // Resolve the file upload here
-        switchMap((user) =>
-          forkJoin({
-            user: of(user),
-            image: image$,
-          }),
-        ),
-        switchMap(({ user, image }) => {
-          const event: Event = {
-            banner: image,
-            createdAt: Timestamp.now(),
-            creatorUserID,
-            description,
-            name,
-            location: coordinates,
-            imageArray: [],
-          };
+      ),
+      switchMap(({ user, image }) => {
+        const event: Event = {
+          banner: image,
+          createdAt: Timestamp.now(),
+          creatorUserID,
+          description,
+          name,
+          location: coordinates,
+          imageArray: [],
+        };
 
-          // Create the event in the events collection and also update the user details
-          return from(setDoc(doc(this.fireStore, 'events', eventId), event)).pipe(
-            switchMap(() => {
-              user.points -= 10;
-              user.events.push(eventId);
-              return from(setDoc(doc(this.fireStore, 'users', creatorUserID), user));
-            }),
-            catchError((error) => throwError(error)),
-          );
-        }),
-        catchError((error) => throwError(error)),
-      )
-      .subscribe();
+        // Create the event in the events collection and also update the user details
+        return from(setDoc(doc(this.fireStore, 'events', eventId), event)).pipe(
+          switchMap(() => {
+            user.points -= 10;
+            user.events.push(eventId);
+            return from(setDoc(doc(this.fireStore, 'users', creatorUserID), user));
+          }),
+          catchError((error) => throwError(error)),
+        );
+      }),
+      catchError((error) => throwError(error)),
+    );
   }
 
   getEvent(id: string): Observable<Event | null> {
