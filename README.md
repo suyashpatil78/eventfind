@@ -16,7 +16,7 @@
 ## How to setup the project
 * Clone the repository and run `npm install`
 * Install Ionic CLI by using the command `npm i -g @ionic/cli`
-* Create a `environment.development.ts` file in environments folder and replace the template in `environment.ts` by firebase config. To get the config, you need to create a project in the firebase.
+* Create a `environment.dev.ts` file in environments folder and replace the template in `environment.ts` by firebase config. To get the config, you need to create a project in the firebase.
 * Run command `ionic serve -c development` to run the app on browser.
 * To run the app on android emulator, install android studio and necessary SDK and packages.
 * Run `ionic build`
