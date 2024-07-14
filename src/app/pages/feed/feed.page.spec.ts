@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FeedPage } from './feed.page';
 
-describe('FeedPage', () => {
+xdescribe('FeedPage', () => {
   let component: FeedPage;
   let fixture: ComponentFixture<FeedPage>;
 

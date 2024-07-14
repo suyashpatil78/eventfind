@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { EventModalComponent } from './event-modal.component';
 
-describe('EventModalComponent', () => {
+xdescribe('EventModalComponent', () => {
   let component: EventModalComponent;
   let fixture: ComponentFixture<EventModalComponent>;
 

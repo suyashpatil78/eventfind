@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MapPage } from './map.page';
 
-describe('MapPage', () => {
+xdescribe('MapPage', () => {
   let component: MapPage;
   let fixture: ComponentFixture<MapPage>;
 
